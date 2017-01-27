@@ -7,4 +7,5 @@ public class MessagePasser {
 	public MessagePasser(String configuration_filename, String local_name) {
 		
 	}
+	
 }

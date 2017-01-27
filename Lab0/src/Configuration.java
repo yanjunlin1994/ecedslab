@@ -6,7 +6,7 @@ public class Configuration {
 	ArrayList<Rule> sendRules = new ArrayList<Rule>();
 	ArrayList<Rule> receiveRules = new ArrayList<Rule>();
 	//ArrayList<Node> Nodes = new ArrayList<Node>();
-	HashMap<String,Node> nodeName = new HashMap<String,Node>();
+	HashMap<String,Node> nodeMap = new HashMap<String,Node>();
 	public void config(String config_fileName){
 		InputStream IS = null;
 		try {
@@ -20,6 +20,12 @@ public class Configuration {
 		List<HashMap<String, Object>> nodes = (List<HashMap<String, Object>> )data.get("configuration");
 		for (HashMap<String, Object> node : nodes){
 			Node newNode = new Node();
+			String name = (String)node.get("name");
+			newNode.set_name(name);
+			newNode.set_ip((String)node.get("ip"));
+			newNode.set_port((String)node.get("port"));
+			nodeMap.put(name,newNode);
+			System.out.println(name);
 		}
 	}
 }
