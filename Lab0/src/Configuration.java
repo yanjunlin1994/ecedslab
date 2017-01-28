@@ -33,7 +33,6 @@ public class Configuration {
 			newNode.set_ip((String)node.get("ip"));
 			newNode.set_port((Integer)node.get("port"));
 			nodeMap.put(name,newNode);
-			//System.out.println(name);
 		}
 		List<HashMap<String, Object>> sRules = (List<HashMap<String, Object>> )data.get("sendRules");
 		for (HashMap<String,Object> rule : sRules){

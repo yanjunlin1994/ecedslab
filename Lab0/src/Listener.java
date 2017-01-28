@@ -21,13 +21,15 @@ public class Listener implements Runnable{
     @Override
     public void run(){
         try {
-            
-            System.out.println(localName+" ");
-            System.out.println(myConfig.getNode(localName));
-            ServerSocket listener = new ServerSocket((int)(myConfig.getNode(localName).get_port()));
+            System.out.println("[listner:run:try]");
+            System.out.println("listener name: " + myConfig.getNode(localName).get_name());
+            System.out.println("port: " + myConfig.getNode(localName).get_port());
+            ServerSocket listener = new ServerSocket((myConfig.getNode(localName).get_port()));
             while (true) {
                 try {
+                    System.out.println("[listner:run:try:try]");
                     Socket socket = listener.accept();
+                    System.out.println("[listner:run:try:try:accept]");
                     ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                     Thread listenFor = new Thread(new ListenFor(ois));
                     listenFor.start();
@@ -37,6 +39,6 @@ public class Listener implements Runnable{
             }
         } catch(IOException e) {
             e.printStackTrace();
-        }     
+        } 
     }   
 }

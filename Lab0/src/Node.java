@@ -29,7 +29,7 @@ public class Node {
 		this.name = n;
 		return;
 	}
-	public Integer get_port(){
+	public int get_port(){
 		return this.port;
 	}
 	public void set_port(Integer p){
@@ -57,4 +57,5 @@ public class Node {
 	public int get_seqN(){
         return this.seqN;
     }
+	
 }

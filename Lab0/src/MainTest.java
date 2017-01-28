@@ -6,17 +6,11 @@ public class MainTest {
 	public static void main(String args[] ){
 	    String configFileName = args[0];
 	    String myName = args[1];
-	    
-	    
-		  
-//	    Configuration c = new Configuration();   //for test
-//		c.config(configFileName);
-	    
 	    MessagePasser mp = new MessagePasser(configFileName, myName);
 	    Message newMes = enterParameter(myName);
-	    mp.send(newMes);
-	    
-		
+	    if (newMes != null) {
+	        mp.send(newMes);
+	    }
 	    
 	}
 	private static Message enterParameter(String localName) {
@@ -32,7 +26,7 @@ public class MainTest {
                 //wrong input
                 return null;
             }
-            System.out.println("Okay, so your message--");
+            System.out.println("Okay, so your message to be send --");
             System.out.println("destination:" + inputParam[0] + "  kind:" + 
                     inputParam[1] + "  content:" + inputParam[2]);
         } catch(Exception e) {

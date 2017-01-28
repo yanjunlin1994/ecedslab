@@ -29,7 +29,7 @@ public class MessagePasser {
 	 * @param data the data in message
 	 */
 	public void send(Message newMes) {
-        //Message newMes = new Message(localName, dest, kind, data);
+	    System.out.println("[MessagePasser class: send function]");
         ObjectOutputStream os = null;
         os = myConfig.get_OSMap(newMes.get_dest());
         if (os != null) {
@@ -39,23 +39,23 @@ public class MessagePasser {
                 os.writeObject(newMes);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            
+            }     
         } else {
+            System.out.println("[MessagePasser class: send function: create new output stream]");
             Node me = myConfig.getNode(myName);
+            Node he = myConfig.getNode(newMes.get_dest());
             try {
-                Socket sck = new Socket(me.get_ip(), me.get_port());
+                System.out.println(newMes);
+                System.out.println(he.get_ip());
+                System.out.println(he.get_port());
+                Socket sck = new Socket(he.get_ip(), he.get_port());
+                System.out.println("]");
                 os = new ObjectOutputStream(sck.getOutputStream());
                 myConfig.add_OSMap(newMes.get_dest(), os);
                 os.writeObject(newMes);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            
-        }
-        
-    }
-
-	
-	
+            }   
+        }   
+    }	
 }
