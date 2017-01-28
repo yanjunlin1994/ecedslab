@@ -28,5 +28,41 @@ public class Configuration {
 			nodeMap.put(name,newNode);
 			//System.out.println(name);
 		}
+		List<HashMap<String, Object>> sRules = (List<HashMap<String, Object>> )data.get("sendRules");
+		for (HashMap<String,Object> rule : sRules){
+			Rule newRule = new Rule();
+			newRule.set_action((String)rule.get("action"));
+			newRule.set_dst((String)rule.get("dest"));
+			newRule.set_src((String)rule.get("src"));
+			newRule.set_kind((String)rule.get("kind"));
+			newRule.set_seqNum((Integer)rule.get("seqNum"));
+			sendRules.add(newRule);
+		}
+		List<HashMap<String, Object>> rRules = (List<HashMap<String, Object>> )data.get("receiveRules");
+		for (HashMap<String,Object> rule : rRules){
+			Rule newRule = new Rule();
+			newRule.set_action((String)rule.get("action"));
+			newRule.set_src((String)rule.get("src"));
+			newRule.set_seqNum((Integer)rule.get("seqNum"));
+			receiveRules.add(newRule);
+		}
+
+	}
+	public HashMap<String,Node> get_NodeMap(){
+		return this.nodeMap;
+	}
+	public ArrayList<Rule> get_sendRules(){
+		return this.sendRules;
+	}
+	public ArrayList<Rule> get_receiveRules(){
+		return this.receiveRules;
+	}
+	public Node getNode(String name){
+		if (nodeMap.containsKey(name)){
+			return nodeMap.get(name);
+		}
+		else{
+			return null;
+		}
 	}
 }
