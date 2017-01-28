@@ -34,12 +34,15 @@ public class MessagePasser {
         os = myConfig.get_OSMap(newMes.get_dest());
         if (os != null) {
             try {
+                System.out.println("[MessagePasser class: send function: using exsiting output stream.]");
                 //increment sequence number
                 myConfig.getNode(newMes.get_dest()).incre_seqN();
+                newMes.set_seqNum(myConfig.getNode(newMes.get_dest()).get_seqN());
+                System.out.println(newMes);
                 os.writeObject(newMes);
             } catch (IOException e) {
                 e.printStackTrace();
-            }     
+            }
         } else {
             System.out.println("[MessagePasser class: send function: create new output stream...]");
             Node me = myConfig.getNode(myName);
@@ -49,6 +52,7 @@ public class MessagePasser {
                 System.out.println("succeed");
                 os = new ObjectOutputStream(sck.getOutputStream());
                 myConfig.add_OSMap(newMes.get_dest(), os);
+                System.out.println(newMes);
                 os.writeObject(newMes);
             } catch (IOException e) {
                 e.printStackTrace();

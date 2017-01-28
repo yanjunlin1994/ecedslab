@@ -25,6 +25,7 @@ public class MainTest {
             inputParam = temp.split("/");
             if (inputParam.length < 3) {
                 //wrong input
+                System.out.println("oops, illegal input.");
                 return null;
             }
             System.out.println("Okay, so your message to be send --");

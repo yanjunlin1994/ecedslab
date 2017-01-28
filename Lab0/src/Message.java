@@ -77,6 +77,6 @@ public class Message implements Serializable {
 		return;
 	}
 	public String toString() { 
-	    return "[source]"+ this.source + " [dest]"+ this.dest +" [kind]"+ this.kind + " [content]" + this.payload;
+	    return "[NO." + this.seqNum + "]" + "[source]"+ this.source + " [dest]"+ this.dest +" [kind]"+ this.kind + " [content]" + this.payload;
 	}
 }
