@@ -26,7 +26,7 @@ public class Configuration {
 			newNode.set_ip((String)node.get("ip"));
 			newNode.set_port((Integer)node.get("port"));
 			nodeMap.put(name,newNode);
-			//System.out.println(name);
+			//System.out.println(NodetoString(newNode));
 		}
 		List<HashMap<String, Object>> sRules = (List<HashMap<String, Object>> )data.get("sendRules");
 		for (HashMap<String,Object> rule : sRules){
@@ -65,4 +65,13 @@ public class Configuration {
 			return null;
 		}
 	}
+	
+	public String NodetoString(Node e){
+		StringBuilder sb = new StringBuilder();
+		sb.append("name: "+e.get_name()+" ");
+		sb.append("ip: "+e.get_ip()+" ");
+		sb.append("port: "+e.get_port()+" ");
+		return sb.toString();
+	}
+	
 }

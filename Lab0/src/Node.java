@@ -22,4 +22,11 @@ public class Node {
 	public void set_ip(String i){
 		this.ip = i;
 	}
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("name: "+this.get_name()+" ");
+		sb.append("ip: "+this.get_ip()+" ");
+		sb.append("port: "+this.get_port()+" ");
+		return sb.toString();
+	}
 }
