@@ -48,7 +48,7 @@ public class MessagePasser {
                 System.out.println(newMes);
                 System.out.println(he.get_ip());
                 System.out.println(he.get_port());
-                Socket sck = new Socket(he.get_ip(), he.get_port());
+                Socket sck = new Socket("localhost", he.get_port());
                 System.out.println("]");
                 os = new ObjectOutputStream(sck.getOutputStream());
                 myConfig.add_OSMap(newMes.get_dest(), os);

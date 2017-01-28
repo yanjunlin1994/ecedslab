@@ -1,9 +1,10 @@
+import java.io.Serializable;
+
 /**
  * Message class.
  * 
- *
  */
-public class Message {
+public class Message implements Serializable {
 	private String source;
 	private String dest;
 	private String kind;
