@@ -1,10 +1,19 @@
-import java.io.*;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import org.yaml.snakeyaml.Yaml;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+
 /**
  * Configuration object.
  * Contains send rules, receive rules, nodes map and output stream map.
- *
+ * @author Team 3
  */
 public class Configuration {
 	ArrayList<Rule> sendRules = new ArrayList<Rule>();
@@ -27,12 +36,9 @@ public class Configuration {
 		Map<String, Object> data = (Map<String, Object>) yaml.load(IS); 
 		List<HashMap<String, Object>> nodes = (List<HashMap<String, Object>> )data.get("configuration");
 		for (HashMap<String, Object> node : nodes){
-			Node newNode = new Node();
-			String name = (String)node.get("name");
-			newNode.set_name(name);
-			newNode.set_ip((String)node.get("ip"));
-			newNode.set_port((Integer)node.get("port"));
-			nodeMap.put(name,newNode);
+			Node newNode = new Node((String)node.get("name"), (int)node.get("port"), 
+			                       (String)node.get("ip"));
+			nodeMap.put((String)node.get("name"),newNode);
 		}
 		List<HashMap<String, Object>> sRules = (List<HashMap<String, Object>> )data.get("sendRules");
 		for (HashMap<String,Object> rule : sRules){
@@ -52,7 +58,6 @@ public class Configuration {
 			newRule.set_seqNum((Integer)rule.get("seqNum"));
 			receiveRules.add(newRule);
 		}
-
 	}
 	public HashMap<String,Node> get_NodeMap(){
 		return this.nodeMap;

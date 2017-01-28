@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 /**
  * MessagePasser who in charge of sending and receiving message.
- *
+ * @author Team 3
  */
 public class MessagePasser {
 	/** MessagePasser's configuration object. */
@@ -41,15 +41,12 @@ public class MessagePasser {
                 e.printStackTrace();
             }     
         } else {
-            System.out.println("[MessagePasser class: send function: create new output stream]");
+            System.out.println("[MessagePasser class: send function: create new output stream...]");
             Node me = myConfig.getNode(myName);
             Node he = myConfig.getNode(newMes.get_dest());
             try {
-                System.out.println(newMes);
-                System.out.println(he.get_ip());
-                System.out.println(he.get_port());
                 Socket sck = new Socket("localhost", he.get_port());
-                System.out.println("]");
+                System.out.println("succeed");
                 os = new ObjectOutputStream(sck.getOutputStream());
                 myConfig.add_OSMap(newMes.get_dest(), os);
                 os.writeObject(newMes);

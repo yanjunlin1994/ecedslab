@@ -10,8 +10,7 @@ public class MainTest {
 	    Message newMes = enterParameter(myName);
 	    if (newMes != null) {
 	        mp.send(newMes);
-	    }
-	    
+	    } 
 	}
 	private static Message enterParameter(String localName) {
 	    System.out.println("Enter destination, "
