@@ -4,7 +4,7 @@ public class Rule {
 	private String src;
 	private String dst;
 	private String kind;
-	private String seqNum;
+	private Integer seqNum;
 	public String get_action(){
 		return this.action;
 	}
@@ -29,10 +29,10 @@ public class Rule {
 	public void set_kind(String k){
 		this.kind = k;
 	}
-	public String get_seqNum(){
+	public Integer get_seqNum(){
 		return this.seqNum;
 	}
-	public void set_seqNum(String se){
+	public void set_seqNum(Integer se){
 		this.seqNum = se;
 	}
 }
