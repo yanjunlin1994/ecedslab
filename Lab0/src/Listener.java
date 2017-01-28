@@ -27,7 +27,7 @@ public class Listener implements Runnable{
                 try {
                     Socket socket = listener.accept();
                     System.out.println("[accept connection from" + 
-                                      socket.getLocalAddress().toString() + " " + socket.getPort() + "]");
+                            socket.getRemoteSocketAddress().toString() + " " + socket.getPort() + "]");
                     ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                     Thread listenFor = new Thread(new ListenFor(ois));
                     listenFor.start();
