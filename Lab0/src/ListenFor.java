@@ -15,7 +15,8 @@ public class ListenFor implements Runnable{
         while(true) {
             try {
                 Message newMes = (Message)ois.readObject();
-                System.out.println("New message: " + newMes);   
+                System.out.println("New message! --");
+                System.out.println(newMes.toString());   
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             } 

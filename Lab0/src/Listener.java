@@ -21,6 +21,9 @@ public class Listener implements Runnable{
     @Override
     public void run(){
         try {
+            
+            System.out.println(localName+" ");
+            System.out.println(myConfig.getNode(localName));
             ServerSocket listener = new ServerSocket((int)(myConfig.getNode(localName).get_port()));
             while (true) {
                 try {

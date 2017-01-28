@@ -27,6 +27,7 @@ public class Configuration {
 			newNode.set_name(name);
 			newNode.set_ip((String)node.get("ip"));
 			newNode.set_port((Integer)node.get("port"));
+			//TODO: set seqN 0
 			nodeMap.put(name,newNode);
 			//System.out.println(name);
 		}
@@ -74,4 +75,8 @@ public class Configuration {
 	        return null;
 	    }
 	}
+	public void add_OSMap(String dest, ObjectOutputStream oos) {
+        OSMap.put(dest, oos);
+        return;
+    }
 }

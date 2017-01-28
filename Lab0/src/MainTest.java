@@ -1,7 +1,49 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MainTest {
 	public static void main(String args[] ){
-		Configuration c = new Configuration();
-		c.config("configuration.yaml");
+	    String configFileName = args[0];
+	    String myName = args[1];
+	    
+	    
+		  
+//	    Configuration c = new Configuration();   //for test
+//		c.config(configFileName);
+	    
+	    MessagePasser mp = new MessagePasser(configFileName, myName);
+	    Message newMes = enterParameter(myName);
+	    mp.send(newMes);
+	    
+		
+	    
+	}
+	private static Message enterParameter(String localName) {
+	    System.out.println("Enter destination, "
+                + "message kind and the message content, seperate them with slash :)");
+        InputStreamReader isrd = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(isrd);
+        String[] inputParam = null;
+        try {
+            String temp = br.readLine();
+            inputParam = temp.split("/");
+            if (inputParam.length < 3) {
+                //wrong input
+                return null;
+            }
+            System.out.println("Okay, so your message--");
+            System.out.println("destination:" + inputParam[0] + "  kind:" + 
+                    inputParam[1] + "  content:" + inputParam[2]);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }   
+        try {
+            Message newM = new Message(localName, inputParam[0], inputParam[1], inputParam[2]); 
+            return newM;
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
 	}
 }

@@ -1,4 +1,8 @@
-
+/**
+ * Message class.
+ * 
+ *
+ */
 public class Message {
 	private String source;
 	private String dest;
@@ -9,11 +13,13 @@ public class Message {
 	private boolean duplicate;
 	
 	
-	public Message(String dest, String kind, Object data) {
-		this.dest = dest;
-		this.kind = kind;
+	public Message(String s, String d, String k, Object data) {
+	    this.source = s;
+		this.dest = d;
+		this.kind = k;
 		this.payload = data;
 		this.duplicate = false;
+		this.seqNum = 0;
 	}
 	
 	public String get_source() {
@@ -22,6 +28,7 @@ public class Message {
 
 	public void set_source(String source) {
 		this.source = source;
+		return;
 	}
 
 	public String get_dest() {
@@ -30,6 +37,7 @@ public class Message {
 
 	public void set_dest(String dest) {
 		this.dest = dest;
+		return;
 	}
 
 	public int get_seqNum() {
@@ -38,6 +46,7 @@ public class Message {
 
 	public void set_seqNum(int seqNum) {
 		this.seqNum = seqNum;
+		return;
 	}
 
 	public String get_kind() {
@@ -46,6 +55,7 @@ public class Message {
 
 	public void set_kind(String kind) {
 		this.kind = kind;
+		return;
 	}
 
 	public boolean get_duplicate() {
@@ -54,6 +64,7 @@ public class Message {
 
 	public void set_duplicate(boolean duplicate) {
 		this.duplicate = duplicate;
+		return;
 	}
 
 	public Object get_payload() {
@@ -62,6 +73,7 @@ public class Message {
 
 	public void set_payload(Object data) {
 		this.payload = data;
+		return;
 	}
 	public String toString() { 
 	    return "[source]"+ this.source + " [dest]"+ this.dest +" [kind]"+ this.kind + " [content]" + this.payload;

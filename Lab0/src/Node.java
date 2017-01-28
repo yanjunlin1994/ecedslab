@@ -3,6 +3,8 @@ public class Node {
 	private String name;
 	private Integer port;
 	private String ip;
+	private int seqN;
+	
 
 	public String get_name(){
 		return this.name;
@@ -22,4 +24,13 @@ public class Node {
 	public void set_ip(String i){
 		this.ip = i;
 	}
+	public void set_seqN(int num){
+        this.seqN = num;
+    }
+	public void incre_seqN(){
+        this.seqN++;
+    }
+	public int get_seqN(){
+        return this.seqN;
+    }
 }
