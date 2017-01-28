@@ -8,12 +8,12 @@ public class Rule {
 	private String src;
 	private String dst;
 	private String kind;
-	private int seqNum;
+	private Integer seqNum;
 	
 	public Rule() {
 	    this.seqNum = -1;
 	}
-	public Rule(String a, String s, String d, String k, int sN) {
+	public Rule(String a, String s, String d, String k, Integer sN) {
 	    this.action = a;
 	    this.src = s;
 	    this.dst = d;

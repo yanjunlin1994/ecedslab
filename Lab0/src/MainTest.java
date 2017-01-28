@@ -7,10 +7,12 @@ public class MainTest {
 	    String configFileName = args[0];
 	    String myName = args[1];
 	    MessagePasser mp = new MessagePasser(configFileName, myName);
-	    Message newMes = enterParameter(myName);
-	    if (newMes != null) {
-	        mp.send(newMes);
-	    } 
+	    while(true) {
+	        Message newMes = enterParameter(myName);
+	        if (newMes != null) {
+	            mp.send(newMes);
+	        }    
+	    }
 	}
 	private static Message enterParameter(String localName) {
 	    System.out.println("Enter destination, "
