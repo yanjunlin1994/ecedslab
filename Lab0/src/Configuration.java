@@ -7,6 +7,8 @@ public class Configuration {
 	ArrayList<Rule> receiveRules = new ArrayList<Rule>();
 	//ArrayList<Node> Nodes = new ArrayList<Node>();
 	HashMap<String,Node> nodeMap = new HashMap<String,Node>();
+	/** output stream hashmap. */
+	HashMap<String,ObjectOutputStream> OSMap = new HashMap<String,ObjectOutputStream>();
 	public void config(String config_fileName){
 		InputStream IS = null;
 		try {
@@ -26,7 +28,7 @@ public class Configuration {
 			newNode.set_ip((String)node.get("ip"));
 			newNode.set_port((Integer)node.get("port"));
 			nodeMap.put(name,newNode);
-			//System.out.println(NodetoString(newNode));
+			//System.out.println(name);
 		}
 		List<HashMap<String, Object>> sRules = (List<HashMap<String, Object>> )data.get("sendRules");
 		for (HashMap<String,Object> rule : sRules){
@@ -65,13 +67,11 @@ public class Configuration {
 			return null;
 		}
 	}
-	
-	public String NodetoString(Node e){
-		StringBuilder sb = new StringBuilder();
-		sb.append("name: "+e.get_name()+" ");
-		sb.append("ip: "+e.get_ip()+" ");
-		sb.append("port: "+e.get_port()+" ");
-		return sb.toString();
+	public ObjectOutputStream get_OSMap(String dest) {
+	    if (OSMap.containsKey(dest)) {
+	        return OSMap.get(dest);
+	    } else {
+	        return null;
+	    }
 	}
-	
 }

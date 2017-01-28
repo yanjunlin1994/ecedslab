@@ -63,4 +63,7 @@ public class Message {
 	public void set_payload(Object data) {
 		this.payload = data;
 	}
+	public String toString() { 
+	    return "[source]"+ this.source + " [dest]"+ this.dest +" [kind]"+ this.kind + " [content]" + this.payload;
+	}
 }
