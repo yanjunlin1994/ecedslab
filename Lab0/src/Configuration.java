@@ -17,13 +17,14 @@ public class Configuration {
 		}
 		Yaml yaml = new Yaml();
 		Map<String, Object> data = (Map<String, Object>) yaml.load(IS); 
+//		System.out.println("buildmap");
 		List<HashMap<String, Object>> nodes = (List<HashMap<String, Object>> )data.get("configuration");
 		for (HashMap<String, Object> node : nodes){
 			Node newNode = new Node();
 			String name = (String)node.get("name");
 			newNode.set_name(name);
 			newNode.set_ip((String)node.get("ip"));
-			newNode.set_port((String)node.get("port"));
+			newNode.set_port((Integer)node.get("port"));
 			nodeMap.put(name,newNode);
 			System.out.println(name);
 		}

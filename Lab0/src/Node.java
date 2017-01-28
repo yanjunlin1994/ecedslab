@@ -1,7 +1,7 @@
 
 public class Node {
 	private String name;
-	private String port;
+	private Integer port;
 	private String ip;
 
 	public String get_name(){
@@ -10,10 +10,10 @@ public class Node {
 	public void set_name(String n){
 		this.name = n;
 	}
-	public String get_port(){
+	public Integer get_port(){
 		return this.port;
 	}
-	public void set_port(String p){
+	public void set_port(Integer p){
 		this.port = p;
 	}
 	public String get_ip(){

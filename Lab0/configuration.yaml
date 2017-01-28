@@ -32,7 +32,10 @@ receiveRules :
 - action : duplicate
   src    : charlie
   seqNum : 3
-- action : drop src : charlie seqNum :7 duplicate : True
+- action : drop
+  src : charlie
+  seqNum : 7 
+  duplicate : True
 - action : delay
   src    : daphnie
 # 4th message from Charlie that anyone
