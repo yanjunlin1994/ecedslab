@@ -2,17 +2,24 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-
+/**
+ * MessagePasser who in charge of sending and receiving message.
+ *
+ */
 public class MessagePasser {
-	private String configFileName;
+	/** MessagePasser's configuration object. */
 	private Configuration myConfig;
-	private String localName;
+	/** MessagePasser's local name. */
+	private String myName;
+	/**
+	 * MessagePasser constructor.
+	 * @param configuration_filename
+	 * @param local_name
+	 */
 	public MessagePasser(String configuration_filename, String local_name) {
-	    localName = local_name;
-		myConfig = new Configuration();
-		myConfig.config(configuration_filename);
-		
-		Thread listen = new Thread(new Listener(myConfig, localName));
+	    myName = local_name;
+		myConfig = new Configuration(configuration_filename);
+		Thread listen = new Thread(new Listener(myConfig, myName));
 		listen.start(); 
 	}
 	/**
@@ -35,7 +42,7 @@ public class MessagePasser {
             }
             
         } else {
-            Node me = myConfig.getNode(localName);
+            Node me = myConfig.getNode(myName);
             try {
                 Socket sck = new Socket(me.get_ip(), me.get_port());
                 os = new ObjectOutputStream(sck.getOutputStream());
