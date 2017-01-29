@@ -21,7 +21,7 @@ public class Receive implements Runnable{
             e.printStackTrace();
         } 
     }  
-    public Message receive(){
+    public synchronized Message receive(){
         Message msg = null;
         if (!receiveQueue.isEmpty()){
             System.out.println("not empty");
