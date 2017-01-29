@@ -54,7 +54,7 @@ public class MessagePasser {
      * Construct the message from input parameters.
      * @return the message constructed from input parameters.
      */
-	public Message enterParameter(String localName) {
+	private Message enterParameter(String localName) {
         System.out.println("Enter destination, "
                 + "message kind and the message content, seperate them with slash :)");
         InputStreamReader isrd = new InputStreamReader(System.in);
@@ -88,7 +88,7 @@ public class MessagePasser {
 	 * @param kind message kind
 	 * @param data the data in message
 	 */
-	public void send(Message newMes) {
+	private void send(Message newMes) {
 	    System.out.println("[MessagePasser class: send function]");
 	    if (newMes == null) {
 	        System.out.println("Message is empty, can't send it");
