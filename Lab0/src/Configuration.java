@@ -56,6 +56,7 @@ public class Configuration {
 			newRule.set_action((String)rule.get("action"));
 			newRule.set_src((String)rule.get("src"));
 			newRule.set_seqNum((Integer)rule.get("seqNum"));
+			newRule.set_duplicate((Boolean)rule.get("duplicate"));
 			receiveRules.add(newRule);
 		}
 	}

@@ -9,6 +9,7 @@ public class Rule {
 	private String dst;
 	private String kind;
 	private Integer seqNum;
+	private boolean duplicate;
 	
 	public Rule() {
 	    this.seqNum = -1;
@@ -49,5 +50,27 @@ public class Rule {
 	}
 	public void set_seqNum(Integer se){
 		this.seqNum = se;
+	}
+	public boolean get_duplicate(){
+		return this.duplicate;
+	}
+	public void set_duplicate(boolean du){
+		this.duplicate = du;
+	}
+	public boolean match(Message msg){
+		if (this.dst!= null && !msg.get_dest().equals(this.dst)){
+			return false;
+		}
+		if(this.src != null && !msg.get_source().equals(this.src)){
+			return false;
+		}
+		if (this.kind != null && !msg.get_kind().equals(this.kind)){
+			return false;
+		}
+		if (this.seqNum != -1 && msg.get_seqNum()!=this.seqNum){
+			return false;
+		}
+		if (this.)
+		return true;
 	}
 }
