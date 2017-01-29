@@ -82,6 +82,7 @@ public class Message implements Serializable {
 	public Message clone(){
 		Message cl = new Message(this.source,this.dest, this.kind, this.payload);
 		cl.set_duplicate(true);
+		cl.set_seqNum(this.seqNum);
 		return cl;
 	}
 }

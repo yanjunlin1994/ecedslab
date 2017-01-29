@@ -57,22 +57,27 @@ public class Rule {
 	public void set_duplicate(boolean du){
 		this.duplicate = du;
 	}
-	public boolean match(Message msg){
+	public int match(Message msg){
 		if (this.dst!= null && !msg.get_dest().equals(this.dst)){
-			return false;
+			return 0;
 		}
 		if(this.src != null && !msg.get_source().equals(this.src)){
-			return false;
+			return 0;
 		}
 		if (this.kind != null && !msg.get_kind().equals(this.kind)){
-			return false;
-		}
-		if (this.seqNum != -1 && msg.get_seqNum()!=this.seqNum){
-			return false;
+			return 0;
 		}
 		if (this.duplicate != msg.get_duplicate()){
-			return false;
+			return 0;
 		}
-		return true;
+		
+		if (this.seqNum != -1 && msg.get_seqNum()>=this.seqNum){
+			if(msg.get_seqNum()>this.seqNum && this.action == "dropAfter"){
+				return 2;
+			}
+			return 0;
+		}
+
+		return 1;
 	}
 }

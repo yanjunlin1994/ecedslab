@@ -46,13 +46,21 @@ public class MessagePasser {
 		        	Message clone = newMes.clone();
 		            send(newMes);
 		            send(clone);
+		            while (!sendDelayQueue.isEmpty()){
+		            	Message msg = sendDelayQueue.poll();
+		            	send(msg);
+		            }
+		        } else if(checkResult.equals("delay")){
+		            sendDelayQueue.offer(newMes);
 		            
-		        } else {
-		            return;
-		        }
+		        }else{}
 		    }
 		    else {
 		    	send(newMes);
+	            while (!sendDelayQueue.isEmpty()){
+	            	Message msg = sendDelayQueue.poll();
+	            	send(msg);
+	            }
 		    }   
 	    }
 	}
@@ -137,8 +145,14 @@ public class MessagePasser {
 	private String check(Message newMes) {
 	    System.out.println("[check send message]");
 	    for (Rule r : myConfig.sendRules) {
-	        if (r.match(newMes)) {
+	        if (r.match(newMes)==1) {
+	        	if (r.get_action().equals("dropAfter")){
+	        		return null;
+	        	}
 	            return r.get_action();
+	        }
+	        if (r.match(newMes)==2){
+	        	return "drop";
 	        }
 	    }
 	    return null;
