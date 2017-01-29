@@ -33,11 +33,7 @@ public class MessagePasser {
 		Thread listen = new Thread(new Listener(myConfig, myName, receiveQueue));
 		listen.start(); 
 	}
-	/**
-	 * Construct the message from input parameters.
-	 * @return the message constructed from input parameters.
-	 */
-	public void run(){
+	public void runNow(){
 	    while(true) {
 	    	//receive();
 	        Message newMes = this.enterParameter(myName);
@@ -60,7 +56,11 @@ public class MessagePasser {
 		    }   
 	    }
 	}
-	public Message enterParameter(String localName) {
+	/**
+     * Construct the message from input parameters.
+     * @return the message constructed from input parameters.
+     */
+	private Message enterParameter(String localName) {
         System.out.println("Enter destination, "
                 + "message kind and the message content, seperate them with slash :)");
         InputStreamReader isrd = new InputStreamReader(System.in);
@@ -94,25 +94,12 @@ public class MessagePasser {
 	 * @param kind message kind
 	 * @param data the data in message
 	 */
-	public void send(Message newMes) {
+	private void send(Message newMes) {
 	    System.out.println("[MessagePasser class: send function]");
 	    if (newMes == null) {
 	        System.out.println("Message is empty, can't send it");
 	        return;
-	    }  
-	    /*
-	    String checkResult = check(newMes); 
-	    if (checkResult != null) {
-	        if (checkResult.equals("drop")) {
-	            return;
-	        } else if (checkResult.equals("dropAfter")) {
-	          //TODO: dropAfter
-	            return;
-	        } else {
-	            return;
-	        }
 	    }
-	    */
         ObjectOutputStream os = null;
         os = myConfig.get_OSMap(newMes.get_dest());
         if (os != null) {
