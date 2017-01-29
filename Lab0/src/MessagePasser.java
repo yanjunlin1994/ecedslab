@@ -39,7 +39,7 @@ public class MessagePasser {
 	}
 	public void runNow(){
 	    while(true) {
-	    	//receive();
+	    	
 	        Message newMes = this.enterParameter(myName);
 	        newMes.set_seqNum(myConfig.getNode(newMes.get_dest()).get_seqN());
 	        System.out.println("[runNow:new message]" + newMes);
@@ -69,6 +69,7 @@ public class MessagePasser {
 	            	send(msg);
 	            }
 		    }   
+		    //receive();
 	    }
 	}
 	/**
@@ -164,4 +165,5 @@ public class MessagePasser {
 	    }
 	    return null;
 	}
+	
 }
