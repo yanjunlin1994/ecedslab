@@ -14,7 +14,7 @@ public class Listener implements Runnable{
     private String localName;
     private Queue<Message> listenQueue;
     private Queue<Message> listenDelayQueue;
-    public Listener(Configuration config, String Name, Queue receiveQueue, Queue receiveDelayQueue) {
+    public Listener(Configuration config, String Name, Queue<Message> receiveQueue, Queue<Message> receiveDelayQueue) {
         this.myConfig = config;
         this.localName = Name;
         this.listenQueue = receiveQueue;
@@ -29,7 +29,6 @@ public class Listener implements Runnable{
             ServerSocket listener = new ServerSocket((myConfig.getNode(localName).get_port()));
             while (true) {
                 try {
-                    receive();
                     Socket socket = listener.accept();
                     System.out.println("[accept connection from" + 
                             socket.getRemoteSocketAddress().toString() + " " + socket.getPort() + "]");
@@ -43,13 +42,5 @@ public class Listener implements Runnable{
         } catch(IOException e) {
             e.printStackTrace();
         } 
-    }  
-    public Message receive(){
-        Message msg = null;
-        if (!listenQueue.isEmpty()){
-            msg = listenQueue.poll();
-            System.out.println("receive from queue" + msg);
-        }
-        return msg;
     }
 }

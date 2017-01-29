@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
 /**
  * MessagePasser who in charge of sending and receiving message.
@@ -24,18 +25,20 @@ public class MessagePasser {
 	/**
 	 * MessagePasser constructor.
 	 * initialize local name,
-	 * send queue, receive queue and configuration file.
+	 * send queue, receive queue， receive delay queue and configuration file.
 	 * start listening on a new thread.
 	 */
 	public MessagePasser(String configuration_filename, String local_name) {
 	    myName = local_name;
 	    sendDelayQueue = new ArrayDeque<Message>(10);
-	    receiveQueue = new ArrayDeque<Message>(10);
+	    receiveQueue = new LinkedList<Message>();
 	    receiveDelayQueue = new ArrayDeque<Message>(10);
-
+//	    System.out.println(receiveQueue);
 		myConfig = new Configuration(configuration_filename);
 		Thread listen = new Thread(new Listener(myConfig, myName, receiveQueue, receiveDelayQueue));
 		listen.start(); 
+		Thread receive = new Thread(new Receive(receiveQueue));
+		receive.start(); 
 	}
 	public void runNow(){
 	    while(true) {
@@ -60,7 +63,9 @@ public class MessagePasser {
 		        } else if(checkResult.equals("delay")){
 		            sendDelayQueue.offer(newMes);
 		            
-		        }else{}
+		        }else {
+		            System.out.println("[ATTENTION]abnormal checkResult" + checkResult); 
+		        }
 		    }
 		    else {
 		    	send(newMes);
@@ -153,17 +158,15 @@ public class MessagePasser {
 	        int result = r.match(newMes);
 	        if (result == 1) {
 	        	if (r.get_action().equals("dropAfter")){
-	        	    System.out.println("32222");
 	        		return null;
 	        	}
 	            return r.get_action();
 	        }
 	        if (result == 2){
-	            System.out.println("22222");
+	            //due to drop after, the after message will be dropped.
 	        	return "drop";
 	        }
 	    }
 	    return null;
 	}
-	
 }

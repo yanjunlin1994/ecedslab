@@ -11,7 +11,7 @@ public class ListenFor implements Runnable{
     private Queue<Message> listenQueue;
     private Queue<Message> listenDelayQueue;
     private Configuration myConfig;
-    public ListenFor(ObjectInputStream oistream, Queue listenQ,Queue listendqueue, Configuration c) {
+    public ListenFor(ObjectInputStream oistream, Queue<Message> listenQ, Queue<Message> listendqueue, Configuration c) {
         this.ois = oistream;
         this.listenQueue = listenQ;
         this.listenDelayQueue = listendqueue;
@@ -30,16 +30,19 @@ public class ListenFor implements Runnable{
                     if (checkResult.equals("drop")) {
                         continue;
                     } 
-                    else if(checkResult.equals("delay")){
-                        listenDelayQueue.offer(newMes);
-                        
-                    }else{}
+                    else if (checkResult.equals("delay")) {
+                        listenDelayQueue.offer(newMes);   
+                    }else {
+                        System.out.println("[ATTENTION]abnormal checkResult" + checkResult); 
+                    }
                 }
                 else {
+                    System.out.println("don't apply receive rule");
                     listenQueue.offer(newMes);
+                    System.out.println("listen queue peek" + listenQueue.peek());
                     while (!listenDelayQueue.isEmpty()){
                         Message msg = listenDelayQueue.poll();
-                        listenQueue.offer(newMes);
+                        listenQueue.offer(msg);
                     }
                }
             } catch (IOException | ClassNotFoundException e) {
