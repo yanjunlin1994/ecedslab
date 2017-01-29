@@ -70,7 +70,9 @@ public class Rule {
 		if (this.seqNum != -1 && msg.get_seqNum()!=this.seqNum){
 			return false;
 		}
-		if (this.)
+		if (this.duplicate != msg.get_duplicate()){
+			return false;
+		}
 		return true;
 	}
 }
