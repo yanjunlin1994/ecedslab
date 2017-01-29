@@ -11,6 +11,7 @@ public class ListenFor implements Runnable{
     private Queue<Message> listenQueue;
     private Queue<Message> listenDelayQueue;
     private Configuration myConfig;
+    private String senderName;
     public ListenFor(ObjectInputStream oistream, Queue<Message> listenQ, Queue<Message> listendqueue, Configuration c) {
         this.ois = oistream;
         this.listenQueue = listenQ;
@@ -22,31 +23,41 @@ public class ListenFor implements Runnable{
         while(true) {
             try {
                 Message newMes = (Message)ois.readObject();
-                //
+                senderName = newMes.get_source();
                 System.out.println("New message! --");
                 System.out.println(newMes.toString());   
                 String checkResult = checkReceiveRule(newMes,myConfig);
                 if (checkResult != null) {
                     if (checkResult.equals("drop")) {
                         continue;
-                    } 
-                    else if (checkResult.equals("delay")) {
+                    } else if (checkResult.equals("delay")) {
                         listenDelayQueue.offer(newMes);   
-                    }else {
-                        System.out.println("[ATTENTION]abnormal checkResult" + checkResult); 
+                    } else if (checkResult.equals("duplicate")) {
+                        //TODO:
+                    } else {
+                        System.out.println("[ATTENTION] abnormal checkResult" + checkResult); 
                     }
                 }
                 else {
-                    System.out.println("don't apply receive rule");
                     listenQueue.offer(newMes);
-                    System.out.println("listen queue peek" + listenQueue.peek());
                     while (!listenDelayQueue.isEmpty()){
                         Message msg = listenDelayQueue.poll();
                         listenQueue.offer(msg);
                     }
                }
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                if (ois != null) {
+                    try {
+                        System.out.println("close the object input stream and the socket");
+                        ois.close(); 
+                        myConfig.OSMap.remove(senderName);
+                        return;
+                    } catch (Exception nestedE) {
+                        nestedE.printStackTrace();   
+                    }
+                } else {
+                    e.printStackTrace();
+                } 
             } 
         }
     }

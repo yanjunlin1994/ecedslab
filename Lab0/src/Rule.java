@@ -1,7 +1,7 @@
 /**
  * Rule class
- * contains send and receive rule.
- *
+ * contains send and receive rules.
+ * @author Team 3
  */
 public class Rule {
 	private String action;
@@ -10,18 +10,24 @@ public class Rule {
 	private String kind;
 	private int seqNum;
 	private boolean duplicate;
-	
+	/**
+	 * Rule constructor without parameter.
+	 */
 	public Rule() {
 	    //default settings for a rule.
 	    this.seqNum = -1;
 	    this.duplicate = false;
 	}
-	public Rule(String a, String s, String d, String k, int sN) {
+	/**
+     * Rule constructor with all parameters.
+     */
+	public Rule(String a, String s, String d, String k, int sN, boolean dup) {
 	    this.action = a;
 	    this.src = s;
 	    this.dst = d;
 	    this.kind = k;
 	    this.seqNum = sN;
+	    this.duplicate = dup;
 	}
 	public String get_action(){
         return this.action;
@@ -59,6 +65,13 @@ public class Rule {
 	public void set_duplicate(boolean du){
 		this.duplicate = du;
 	}
+	/**
+	 * Match function to be whether the rules should be applied.
+	 * @param msg message to be matched.
+	 * @return 0 no match found
+	 *         1 match found
+	 *         2 should be dropped because of "dropafter"
+	 */
 	public int match(Message msg){
 		if (this.dst!= null && !msg.get_dest().equals(this.dst)){
 			return 0;
@@ -71,21 +84,14 @@ public class Rule {
 		}
 		if (this.duplicate != msg.get_duplicate()){
 			return 0;
-		}
-		
+		}		
 		if ((this.seqNum != -1) && (msg.get_seqNum() != (this.seqNum))) {
-		    System.out.println("--");
-		    System.out.println("msg.get_seqNum()" + msg.get_seqNum());
-		    System.out.println("(this.seqNum)" + (this.seqNum));
-		    System.out.println((msg.get_seqNum() > this.seqNum));
-		    System.out.println(this.action.equals("dropAfter"));
 			if ((msg.get_seqNum() > this.seqNum) && (this.action.equals("dropAfter"))){
-			    System.out.println("++");
+			    System.out.println("message sequence number larger that 'dropafter' sequence number");
 				return 2;
 			}
 			return 0;
 		}
-
 		return 1;
 	}
 }
