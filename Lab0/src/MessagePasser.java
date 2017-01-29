@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
+import java.util.ArrayDeque;
+import java.util.Queue;
 /**
  * MessagePasser who in charge of sending and receiving message.
  * @author Team 3
@@ -13,17 +15,28 @@ public class MessagePasser {
 	private Configuration myConfig;
 	/** MessagePasser's local name. */
 	private String myName;
+	/** MessagePasser's send queue. */
+	private Queue<Message> sendQueue;
+	/** MessagePasser's receive queue. */
+	private Queue<Message> receiveQueue;
 	/**
 	 * MessagePasser constructor.
-	 * @param configuration_filename
-	 * @param local_name
+	 * initialize local name,
+	 * send queue, receive queue and configuration file.
+	 * start listening on a new thread.
 	 */
 	public MessagePasser(String configuration_filename, String local_name) {
 	    myName = local_name;
+	    sendQueue = new ArrayDeque<Message>(10);
+	    receiveQueue = new ArrayDeque<Message>(10);
 		myConfig = new Configuration(configuration_filename);
 		Thread listen = new Thread(new Listener(myConfig, myName));
 		listen.start(); 
 	}
+	/**
+	 * Construct the message from input parameters.
+	 * @return the message constructed from input parameters.
+	 */
 	public Message enterParameter(String localName) {
         System.out.println("Enter destination, "
                 + "message kind and the message content, seperate them with slash :)");
@@ -60,7 +73,21 @@ public class MessagePasser {
 	 */
 	public void send(Message newMes) {
 	    System.out.println("[MessagePasser class: send function]");
-	    
+	    if (newMes == null) {
+	        System.out.println("Message is empty, can't send it");
+	        return;
+	    }  
+	    String checkResult = check(newMes); 
+	    if (checkResult != null) {
+	        if (checkResult.equals("drop")) {
+	            return;
+	        } else if (checkResult.equals("dropAfter")) {
+	          //TODO: dropAfter
+	            return;
+	        } else {
+	            return;
+	        }
+	    }
         ObjectOutputStream os = null;
         os = myConfig.get_OSMap(newMes.get_dest());
         if (os != null) {
@@ -90,5 +117,18 @@ public class MessagePasser {
                 e.printStackTrace();
             }   
         }   
-    }	
+    }
+	/**
+	 * check input message against rules in rule list.
+	 * @return actions should be taken.
+	 */
+	private String check(Message newMes) {
+	    System.out.println("[check send message]");
+	    for (Rule r : myConfig.sendRules) {
+	        if (r.match(newMes)) {
+	            return r.get_action();
+	        }
+	    }
+	    return null;
+	}
 }
