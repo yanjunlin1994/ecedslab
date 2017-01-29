@@ -30,7 +30,7 @@ public class MessagePasser {
 	    sendQueue = new ArrayDeque<Message>(10);
 	    receiveQueue = new ArrayDeque<Message>(10);
 		myConfig = new Configuration(configuration_filename);
-		Thread listen = new Thread(new Listener(myConfig, myName));
+		Thread listen = new Thread(new Listener(myConfig, myName, receiveQueue));
 		listen.start(); 
 	}
 	/**

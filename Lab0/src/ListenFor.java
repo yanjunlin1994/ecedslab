@@ -1,4 +1,5 @@
 import java.io.ObjectInputStream;
+import java.util.Queue;
 import java.io.IOException;
 /**
  * Listen for a specific client.
@@ -7,8 +8,10 @@ import java.io.IOException;
 public class ListenFor implements Runnable{
     /** the Object Input Stream. */
     private ObjectInputStream ois;
-    public ListenFor(ObjectInputStream oistream) {
+    private Queue<Message> listenQueue;
+    public ListenFor(ObjectInputStream oistream, Queue listenQ) {
         this.ois = oistream;
+        this.listenQueue = listenQ;
     }
     @Override
     public void run() {
