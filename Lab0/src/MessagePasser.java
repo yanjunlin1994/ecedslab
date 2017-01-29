@@ -16,7 +16,7 @@ public class MessagePasser {
 	/** MessagePasser's local name. */
 	private String myName;
 	/** MessagePasser's send queue. */
-	private Queue<Message> sendQueue;
+	private Queue<Message> sendDelayQueue;
 	/** MessagePasser's receive queue. */
 	private Queue<Message> receiveQueue;
 	/**
@@ -27,7 +27,7 @@ public class MessagePasser {
 	 */
 	public MessagePasser(String configuration_filename, String local_name) {
 	    myName = local_name;
-	    sendQueue = new ArrayDeque<Message>(10);
+	    sendDelayQueue = new ArrayDeque<Message>(10);
 	    receiveQueue = new ArrayDeque<Message>(10);
 		myConfig = new Configuration(configuration_filename);
 		Thread listen = new Thread(new Listener(myConfig, myName, receiveQueue));
@@ -45,12 +45,18 @@ public class MessagePasser {
 		    if (checkResult != null) {
 		        if (checkResult.equals("drop")) {
 		            continue;
-		        } else if (checkResult.equals("dropAfter")) {
+		        } else if (checkResult.equals("duplicate")) {
 		          //TODO: dropAfter
-		            return;
+		        	Message clone = newMes.clone();
+		            send(newMes);
+		            send(clone);
+		            
 		        } else {
 		            return;
 		        }
+		    }
+		    else {
+		    	send(newMes);
 		    }   
 	    }
 	}

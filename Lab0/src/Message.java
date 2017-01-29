@@ -79,7 +79,7 @@ public class Message implements Serializable {
 	public String toString() { 
 	    return "[NO." + this.seqNum + "]" + "[source]"+ this.source + " [dest]"+ this.dest +" [kind]"+ this.kind + " [content]" + this.payload;
 	}
-	public Message copy(){
+	public Message clone(){
 		Message cl = new Message(this.source,this.dest, this.kind, this.payload);
 		cl.set_duplicate(true);
 		return cl;
