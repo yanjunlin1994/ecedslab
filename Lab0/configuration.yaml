@@ -28,6 +28,16 @@ sendRules :
     kind   : Reply
     src    : daphnie
     seqNum : 6
+  - action : delay # 
+    kind   : det
+    src    : bob
+    dest   : alice
+    seqNum : 3
+  - action : duplicate # 
+    kind   : dup
+    src    : bob
+    dest   : alice
+    seqNum : 5
 receiveRules :
 - action : duplicate
   src    : charlie
