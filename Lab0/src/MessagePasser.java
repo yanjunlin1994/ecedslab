@@ -33,7 +33,6 @@ public class MessagePasser {
 	    sendDelayQueue = new ArrayDeque<Message>(10);
 	    receiveQueue = new LinkedList<Message>();
 	    receiveDelayQueue = new ArrayDeque<Message>(10);
-//	    System.out.println(receiveQueue);
 		myConfig = new Configuration(configuration_filename);
 		Thread listen = new Thread(new Listener(myConfig, myName, receiveQueue, receiveDelayQueue));
 		listen.start(); 
@@ -41,8 +40,7 @@ public class MessagePasser {
 		receive.start(); 
 	}
 	public void runNow(){
-	    while(true) {
-	    	
+	    while(true) {	    	
 	        Message newMes = this.enterParameter(myName);
 	        newMes.set_seqNum(myConfig.getNode(newMes.get_dest()).get_seqN());
 	        System.out.println("[runNow:new message]" + newMes);
@@ -73,8 +71,7 @@ public class MessagePasser {
 	            	Message msg = sendDelayQueue.poll();
 	            	send(msg);
 	            }
-		    }   
-		    //receive();
+		    }
 	    }
 	}
 	/**
@@ -95,17 +92,10 @@ public class MessagePasser {
                 System.out.println("oops, illegal input.");
                 return null;
             }
-            System.out.println("Okay, so your message to be send --");
-            System.out.println("destination:" + inputParam[0] + "  kind:" + 
-                    inputParam[1] + "  content:" + inputParam[2]);
+//            System.out.println("Okay, so your message to be send --");
+//            System.out.println("destination:" + inputParam[0] + "  kind:" + 
+//                    inputParam[1] + "  content:" + inputParam[2]);
         } catch(Exception e) {
-        	if (isrd != null){
-        		try{
-        		isrd.close();
-        		}catch(Exception ne){
-        			ne.printStackTrace();
-        		}
-        	}
             e.printStackTrace();
         }   
         try {
@@ -133,7 +123,7 @@ public class MessagePasser {
         if (os != null) {
             try {
                 System.out.println("[MessagePasser class: send function: using exsiting output stream.]");
-                System.out.println(newMes);
+                System.out.println("message to be send is:" + newMes);
                 os.writeObject(newMes);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -149,17 +139,19 @@ public class MessagePasser {
                 System.out.println("succeed");
                 os = new ObjectOutputStream(sck.getOutputStream());
                 myConfig.add_OSMap(newMes.get_dest(), os);
-                System.out.println(newMes);
+                System.out.println("message to be send is:" + newMes);
                 os.writeObject(newMes);
             } catch (IOException e) {
-            	if (sck != null){
-            		try{
-            			sck.close();
-            		}catch(Exception nestedE){
-            			nestedE.printStackTrace();
-            		}
-            	}
-                e.printStackTrace();
+                if (sck != null) {
+                    try {
+                        sck.close();
+                    } catch (Exception nestedE) {
+                        nestedE.printStackTrace();   
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+                
             }   
         }   
     }

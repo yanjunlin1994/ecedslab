@@ -28,22 +28,25 @@ public class Listener implements Runnable{
             System.out.println("[listening...]");
             ServerSocket listener = new ServerSocket((myConfig.getNode(localName).get_port()));
             while (true) {
+                Socket socket = null;
                 try {
-                    Socket socket = listener.accept();
+                    socket = listener.accept();
                     System.out.println("[accept connection from" + 
                             socket.getRemoteSocketAddress().toString() + " " + socket.getPort() + "]");
                     ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                     Thread listenFor = new Thread(new ListenFor(ois, listenQueue,listenDelayQueue,myConfig));
                     listenFor.start();
                 } catch (IOException e) {
-                	try{
-                		if (listener != null){
-                			listener.close();
-                		}
-                	}catch(Exception ne){
-                		e.printStackTrace();
-                	}
-                    e.printStackTrace();
+                    if (socket != null) {
+                        try {
+                            socket.close();
+                        } catch (Exception nestedE) {
+                            nestedE.printStackTrace();   
+                        }
+                    } else {
+                        e.printStackTrace();
+                    }
+                    
                 } 
             }
         } catch(IOException e) {

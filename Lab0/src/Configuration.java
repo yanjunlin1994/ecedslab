@@ -21,8 +21,8 @@ public class Configuration {
 	HashMap<String,Node> nodeMap = new HashMap<String,Node>();
 	HashMap<String,ObjectOutputStream> OSMap = new HashMap<String,ObjectOutputStream>();
 	/**
-	 * Configuration constructor.
-	 * @param config_fileName
+	 * Configuration constructor based on configuration file.
+	 * @param config_fileName configuration file
 	 */
 	public Configuration(String config_fileName){
 		InputStream IS = null;
