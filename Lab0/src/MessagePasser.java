@@ -1,6 +1,8 @@
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 /**
  * MessagePasser who in charge of sending and receiving message.
@@ -22,6 +24,34 @@ public class MessagePasser {
 		Thread listen = new Thread(new Listener(myConfig, myName));
 		listen.start(); 
 	}
+	public Message enterParameter(String localName) {
+        System.out.println("Enter destination, "
+                + "message kind and the message content, seperate them with slash :)");
+        InputStreamReader isrd = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(isrd);
+        String[] inputParam = null;
+        try {
+            String temp = br.readLine();
+            inputParam = temp.split("/");
+            if (inputParam.length < 3) {
+                //wrong input
+                System.out.println("oops, illegal input.");
+                return null;
+            }
+            System.out.println("Okay, so your message to be send --");
+            System.out.println("destination:" + inputParam[0] + "  kind:" + 
+                    inputParam[1] + "  content:" + inputParam[2]);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }   
+        try {
+            Message newM = new Message(localName, inputParam[0], inputParam[1], inputParam[2]); 
+            return newM;
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 	/**
 	 * Send message to a particular destination.
 	 * @param dest destination
@@ -30,6 +60,7 @@ public class MessagePasser {
 	 */
 	public void send(Message newMes) {
 	    System.out.println("[MessagePasser class: send function]");
+	    
         ObjectOutputStream os = null;
         os = myConfig.get_OSMap(newMes.get_dest());
         if (os != null) {
@@ -48,7 +79,8 @@ public class MessagePasser {
             Node me = myConfig.getNode(myName);
             Node he = myConfig.getNode(newMes.get_dest());
             try {
-                Socket sck = new Socket(he.get_ip(), he.get_port());
+//                Socket sck = new Socket(he.get_ip(), he.get_port());
+                Socket sck = new Socket("localhost", he.get_port());
                 System.out.println("succeed");
                 os = new ObjectOutputStream(sck.getOutputStream());
                 myConfig.add_OSMap(newMes.get_dest(), os);
