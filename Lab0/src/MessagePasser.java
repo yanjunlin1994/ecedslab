@@ -19,6 +19,8 @@ public class MessagePasser {
 	private Queue<Message> sendDelayQueue;
 	/** MessagePasser's receive queue. */
 	private Queue<Message> receiveQueue;
+	/** MessagePasser's receive delay queue. */
+    private Queue<Message> receiveDelayQueue;
 	/**
 	 * MessagePasser constructor.
 	 * initialize local name,
@@ -29,8 +31,10 @@ public class MessagePasser {
 	    myName = local_name;
 	    sendDelayQueue = new ArrayDeque<Message>(10);
 	    receiveQueue = new ArrayDeque<Message>(10);
+	    receiveDelayQueue = new ArrayDeque<Message>(10);
+
 		myConfig = new Configuration(configuration_filename);
-		Thread listen = new Thread(new Listener(myConfig, myName, receiveQueue));
+		Thread listen = new Thread(new Listener(myConfig, myName, receiveQueue, receiveDelayQueue));
 		listen.start(); 
 	}
 	public void runNow(){
