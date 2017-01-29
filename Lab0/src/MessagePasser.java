@@ -37,12 +37,15 @@ public class MessagePasser {
 	    while(true) {
 	    	//receive();
 	        Message newMes = this.enterParameter(myName);
+	        newMes.set_seqNum(myConfig.getNode(newMes.get_dest()).get_seqN());
+	        System.out.println("[runNow:new message]" + newMes);
+	        myConfig.getNode(newMes.get_dest()).incre_seqN();
+	        System.out.println("[runNow:node sequence number]" + myConfig.getNode(newMes.get_dest()).get_seqN());
 		    String checkResult = check(newMes); 
 		    if (checkResult != null) {
 		        if (checkResult.equals("drop")) {
 		            continue;
 		        } else if (checkResult.equals("duplicate")) {
-		          //TODO: dropAfter
 		        	Message clone = newMes.clone();
 		            send(newMes);
 		            send(clone);
@@ -89,7 +92,7 @@ public class MessagePasser {
             e.printStackTrace();
         }   
         try {
-            Message newM = new Message(localName, inputParam[0], inputParam[1], inputParam[2]); 
+            Message newM = new Message(localName, inputParam[0], inputParam[1], inputParam[2]);
             return newM;
         } catch(Exception e) {
             e.printStackTrace();
@@ -113,9 +116,6 @@ public class MessagePasser {
         if (os != null) {
             try {
                 System.out.println("[MessagePasser class: send function: using exsiting output stream.]");
-                //increment sequence number
-                myConfig.getNode(newMes.get_dest()).incre_seqN();
-                newMes.set_seqNum(myConfig.getNode(newMes.get_dest()).get_seqN());
                 System.out.println(newMes);
                 os.writeObject(newMes);
             } catch (IOException e) {
@@ -145,13 +145,16 @@ public class MessagePasser {
 	private String check(Message newMes) {
 	    System.out.println("[check send message]");
 	    for (Rule r : myConfig.sendRules) {
-	        if (r.match(newMes)==1) {
+	        int result = r.match(newMes);
+	        if (result == 1) {
 	        	if (r.get_action().equals("dropAfter")){
+	        	    System.out.println("32222");
 	        		return null;
 	        	}
 	            return r.get_action();
 	        }
-	        if (r.match(newMes)==2){
+	        if (result == 2){
+	            System.out.println("22222");
 	        	return "drop";
 	        }
 	    }

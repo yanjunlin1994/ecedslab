@@ -8,13 +8,15 @@ public class Rule {
 	private String src;
 	private String dst;
 	private String kind;
-	private Integer seqNum;
+	private int seqNum;
 	private boolean duplicate;
 	
 	public Rule() {
+	    //default settings for a rule.
 	    this.seqNum = -1;
+	    this.duplicate = false;
 	}
-	public Rule(String a, String s, String d, String k, Integer sN) {
+	public Rule(String a, String s, String d, String k, int sN) {
 	    this.action = a;
 	    this.src = s;
 	    this.dst = d;
@@ -45,10 +47,10 @@ public class Rule {
 	public void set_kind(String k){
 		this.kind = k;
 	}
-	public Integer get_seqNum(){
+	public int get_seqNum(){
 		return this.seqNum;
 	}
-	public void set_seqNum(Integer se){
+	public void set_seqNum(int se){
 		this.seqNum = se;
 	}
 	public boolean get_duplicate(){
@@ -71,8 +73,14 @@ public class Rule {
 			return 0;
 		}
 		
-		if (this.seqNum != -1 && msg.get_seqNum()>=this.seqNum){
-			if(msg.get_seqNum()>this.seqNum && this.action == "dropAfter"){
+		if ((this.seqNum != -1) && (msg.get_seqNum() != (this.seqNum))) {
+		    System.out.println("--");
+		    System.out.println("msg.get_seqNum()" + msg.get_seqNum());
+		    System.out.println("(this.seqNum)" + (this.seqNum));
+		    System.out.println((msg.get_seqNum() > this.seqNum));
+		    System.out.println(this.action.equals("dropAfter"));
+			if ((msg.get_seqNum() > this.seqNum) && (this.action.equals("dropAfter"))){
+			    System.out.println("++");
 				return 2;
 			}
 			return 0;
