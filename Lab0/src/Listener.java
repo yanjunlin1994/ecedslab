@@ -36,6 +36,13 @@ public class Listener implements Runnable{
                     Thread listenFor = new Thread(new ListenFor(ois, listenQueue,listenDelayQueue,myConfig));
                     listenFor.start();
                 } catch (IOException e) {
+                	try{
+                		if (listener != null){
+                			listener.close();
+                		}
+                	}catch(Exception ne){
+                		e.printStackTrace();
+                	}
                     e.printStackTrace();
                 } 
             }

@@ -99,6 +99,13 @@ public class MessagePasser {
             System.out.println("destination:" + inputParam[0] + "  kind:" + 
                     inputParam[1] + "  content:" + inputParam[2]);
         } catch(Exception e) {
+        	if (isrd != null){
+        		try{
+        		isrd.close();
+        		}catch(Exception ne){
+        			ne.printStackTrace();
+        		}
+        	}
             e.printStackTrace();
         }   
         try {
@@ -135,15 +142,23 @@ public class MessagePasser {
             System.out.println("[MessagePasser class: send function: create new output stream...]");
             Node me = myConfig.getNode(myName);
             Node he = myConfig.getNode(newMes.get_dest());
+            Socket sck = null;
             try {
 //                Socket sck = new Socket(he.get_ip(), he.get_port());
-                Socket sck = new Socket("localhost", he.get_port());
+                sck = new Socket("localhost", he.get_port());
                 System.out.println("succeed");
                 os = new ObjectOutputStream(sck.getOutputStream());
                 myConfig.add_OSMap(newMes.get_dest(), os);
                 System.out.println(newMes);
                 os.writeObject(newMes);
             } catch (IOException e) {
+            	if (sck != null){
+            		try{
+            			sck.close();
+            		}catch(Exception nestedE){
+            			nestedE.printStackTrace();
+            		}
+            	}
                 e.printStackTrace();
             }   
         }   

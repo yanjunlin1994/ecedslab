@@ -20,6 +20,7 @@ public class ListenFor implements Runnable{
     @Override
     public synchronized void run() {
         while(true) {
+        	
             try {
                 Message newMes = (Message)ois.readObject();
                 //
