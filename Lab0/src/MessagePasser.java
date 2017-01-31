@@ -134,8 +134,8 @@ public class MessagePasser {
             Node he = myConfig.getNode(newMes.get_dest());
             Socket sck = null;
             try {
-//                Socket sck = new Socket(he.get_ip(), he.get_port());
-                sck = new Socket("localhost", he.get_port());
+                sck = new Socket(he.get_ip(), he.get_port());
+//                sck = new Socket("localhost", he.get_port());
                 System.out.println("succeed");
                 os = new ObjectOutputStream(sck.getOutputStream());
                 myConfig.add_OSMap(newMes.get_dest(), os);
